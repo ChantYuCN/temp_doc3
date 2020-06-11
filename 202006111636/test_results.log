@@ -1,0 +1,32 @@
+
+FAIL	20200611 08:36:20	testcases/functional/horizon/test_hosts.py::test_horizon_host_inventory_display
+SKIP	20200611 08:37:34	testcases/functional/mtc/test_lock_unlock_host.py::test_lock_active_controller_reject
+FAIL	20200611 08:37:41	testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[controller]
+SKIP	20200611 09:00:43	testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[compute]
+SKIP	20200611 09:00:53	testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[storage]
+SKIP	20200611 09:01:04	testcases/functional/mtc/test_swact.py::test_swact_controller_platform
+SKIP	20200611 09:01:16	testcases/functional/z_containers/test_custom_containers.py::test_launch_pod_via_kubectl[active]
+SKIP	20200611 09:01:22	testcases/functional/z_containers/test_custom_containers.py::test_launch_pod_via_kubectl[standby]
+SKIP	20200611 09:01:28	testcases/functional/z_containers/test_custom_containers.py::test_launch_app_via_sysinv
+PASS	20200611 09:01:35	testcases/functional/z_containers/test_custom_containers.py::test_push_docker_image_to_local_registry[active]
+SKIP	20200611 09:01:59	testcases/functional/z_containers/test_custom_containers.py::test_push_docker_image_to_local_registry[standby]
+SKIP	20200611 09:02:13	testcases/functional/z_containers/test_custom_containers.py::test_upload_charts_via_helm_upload
+FAIL	20200611 09:02:19	testcases/functional/z_containers/test_custom_containers.py::test_host_operations_with_custom_kubectl_app
+PASS	20200611 09:04:35	testcases/functional/z_containers/test_kube_system_services.py::test_kube_system_services[active]
+SKIP	20200611 09:04:48	testcases/functional/z_containers/test_kube_system_services.py::test_kube_system_services[standby]
+
+Lab: 172.16.130.249
+Build ID: r/stx.3.0
+Job: STX_BUILD_3.0
+Build Server: starlingx_mirror
+System Type: AIO-SX
+Automation LOGs DIR: /root/AUTOMATION_LOGS/172.16.130.249/202006111636
+Ends at: 20200611 09:05:01
+Software Version: 19.12
+
+Summary:
+Passed: 2 (40.0%)
+Failed: 3 (60.0%)
+Total Executed: 5
+------------
+Skipped: 10
