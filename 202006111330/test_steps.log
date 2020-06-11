@@ -1,0 +1,104 @@
+Setup started for: testcases/functional/horizon/test_hosts.py::test_horizon_host_inventory_display
+====================== Setup Step 1: (session) Setting up test session...
+[2020-06-11 05:30:34,430] 304  DEBUG MainThread ssh.send    :: Send 'cat /etc/build.info'
+[2020-06-11 05:30:34,754] 304  DEBUG MainThread ssh.send    :: Send 'export PS1="\u@\h\$ "'
+====================== Setup Step 2: (session) Gathering system health info before test session begins.
+
+[2020-06-11 05:30:41,423] 54   DEBUG MainThread conftest.update_results:: ***Failure at test setup: /root/yuchengde/yuchengde_py36/lib/python3.6/site-packages/selenium/webdriver/remote/errorhandler.py:242: selenium.common.exceptions.SessionNotCreatedException: Message: Unable to find a matching set of capabilities
+
+Teardown started for: testcases/functional/horizon/test_hosts.py::test_horizon_host_inventory_display
+
+
+
+
+
+
+Setup started for: testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[controller]
+====================== Setup Step 1: (function) Gathering system health info before test function begins.
+
+Test steps started for: testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[controller]
+====================== Test Step 1: Select a controller node from system if any
+====================== Test Step 2: Lock controller host - controller-0 and ensure it is successfully locked
+[2020-06-11 05:30:58,417] 304  DEBUG MainThread ssh.send    :: Send 'system --os-username 'admin' --os-password '99cloud@SH' --os-project-name admin --os-auth-url http://192.168.104.1:5000/v3 --os-user-domain-name Default --os-project-domain-name Default  --os-endpoint-type internalURL --os-region-name RegionOne host-lock controller-0'
+====================== Test Step 3: Unlock controller host - controller-0 and ensure it is successfully unlocked
+[2020-06-11 05:32:18,812] 304  DEBUG MainThread ssh.send    :: Send 'system --os-username 'admin' --os-password '99cloud@SH' --os-project-name admin --os-auth-url http://192.168.104.1:5000/v3 --os-user-domain-name Default --os-project-domain-name Default  --os-endpoint-type internalURL --os-region-name RegionOne host-unlock controller-0'
+[2020-06-11 05:37:49,005] 304  DEBUG MainThread ssh.send    :: Send 'unset PROMPT_COMMAND'
+[2020-06-11 05:37:49,093] 304  DEBUG MainThread ssh.send    :: Send 'export TMOUT=0'
+[2020-06-11 05:40:13,287] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get nodes'
+[2020-06-11 05:45:22,014] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pods --all-namespaces -o wide | grep -v -e Running -e Completed'
+[2020-06-11 05:45:22,267] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pods --all-namespaces -o wide | grep -v -e Running -e Completed -e NAMESPACE | awk '{system("kubectl describe pods -n "$1" "$2)}''
+
+[2020-06-11 05:45:23,003] 54   DEBUG MainThread conftest.update_results:: ***Failure at test call: /root/yuchengde/test/automated-pytest-suite/keywords/kube_helper.py:796: utils.exceptions.KubeError: Kubernetes error.
+
+Teardown started for: testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[controller]
+====================== Teardown Step 1: function Recover simplex host
+[2020-06-11 05:45:55,827] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get nodes'
+====================== Teardown Step 2: (function) Verify system alarms, applications and pods status after test function ended...
+[2020-06-11 05:46:00,367] 304  DEBUG MainThread ssh.send    :: Send 'sudo ntpq -pn'
+[2020-06-11 05:46:00,455] 304  DEBUG MainThread ssh.send    :: Send '99cloud@SH'
+[2020-06-11 05:46:04,046] 304  DEBUG MainThread ssh.send    :: Send 'sudo ntpq -pn'
+[2020-06-11 05:46:07,632] 304  DEBUG MainThread ssh.send    :: Send 'sudo ntpq -pn'
+
+
+
+
+
+
+Setup started for: testcases/functional/z_containers/test_custom_containers.py::test_host_operations_with_custom_kubectl_app
+====================== Setup Step 1: (function) Gathering system health info before test function begins.
+====================== Setup Step 2: Create resource-consumer test app by kubectl run
+[2020-06-11 05:47:47,406] 304  DEBUG MainThread ssh.send    :: Send 'kubectl run resource-consumer --image=gcr.io/kubernetes-e2e-test-images/resource-consumer:1.4 --expose --service-overrides='{ "spec": { "type": "LoadBalancer" } }' --port 8080 --requests='cpu=1000m,memory=1024Mi''
+====================== Setup Step 3: Check resource-consumer test app is created 
+[2020-06-11 05:47:47,683] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod -n=default -o=wide'
+[2020-06-11 05:47:47,951] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:47:51,265] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:47:54,530] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:47:57,804] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:01,066] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:04,360] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:07,653] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:10,910] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:14,185] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:17,445] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:20,676] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:23,945] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:27,200] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:30,473] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:33,753] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:37,088] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:40,369] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:43,664] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:46,941] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:50,209] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:53,475] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:48:56,721] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:00,024] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:03,287] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:06,571] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:09,830] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:13,110] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:16,376] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:19,630] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:22,872] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:26,132] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:29,414] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:32,660] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:35,925] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:39,179] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:42,458] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:45,799] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+
+[2020-06-11 05:49:49,121] 54   DEBUG MainThread conftest.update_results:: ***Failure at test setup: /root/yuchengde/test/automated-pytest-suite/keywords/kube_helper.py:414: utils.exceptions.KubeError: Kubernetes error.
+
+Teardown started for: testcases/functional/z_containers/test_custom_containers.py::test_host_operations_with_custom_kubectl_app
+====================== Teardown Step 1: Delete resource-consumer pod if exists after test run
+[2020-06-11 05:49:55,279] 304  DEBUG MainThread ssh.send    :: Send 'kubectl delete deployment,service resource-consumer'
+[2020-06-11 05:49:55,546] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+[2020-06-11 05:49:58,786] 304  DEBUG MainThread ssh.send    :: Send 'kubectl get pod resource-consumer-5577dbdbf-4rqbc -n=default -o=wide'
+====================== Teardown Step 2: (function) Verify system alarms, applications and pods status after test function ended...
+
+
+
+
+
+

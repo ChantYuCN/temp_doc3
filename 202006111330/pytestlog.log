@@ -1,0 +1,473 @@
+E testcases/functional/horizon/test_hosts.py::test_horizon_host_inventory_display
+ request = <SubRequest 'driver' for <Function 'test_horizon_host_inventory_display'>>
+ 
+     @fixture(scope="session")
+     def driver(request):
+ >       driver_ = HorizonDriver.get_driver()
+ 
+ testfixtures/horizon.py:24: 
+ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ utils/horizon/helper.py:76: in get_driver
+     driver_ = webdriver.Firefox(firefox_profile=profile)
+ ../../yuchengde_py36/lib/python3.6/site-packages/selenium/webdriver/firefox/webdriver.py:174: in __init__
+     keep_alive=True)
+ ../../yuchengde_py36/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:157: in __init__
+     self.start_session(capabilities, browser_profile)
+ ../../yuchengde_py36/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:252: in start_session
+     response = self.execute(Command.NEW_SESSION, parameters)
+ ../../yuchengde_py36/lib/python3.6/site-packages/selenium/webdriver/remote/webdriver.py:321: in execute
+     self.error_handler.check_response(response)
+ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ 
+ self = <selenium.webdriver.remote.errorhandler.ErrorHandler object at 0x7f7e8bac0908>
+ response = {'status': 500, 'value': '{"value":{"error":"session not created","message":"Unable to find a matching set of capabilities","stacktrace":""}}'}
+ 
+     def check_response(self, response):
+         """
+         Checks that a JSON response from the WebDriver does not have an error.
+     
+         :Args:
+          - response - The JSON response from the WebDriver server as a dictionary
+            object.
+     
+         :Raises: If the response contains an error message.
+         """
+         status = response.get('status', None)
+         if status is None or status == ErrorCode.SUCCESS:
+             return
+         value = None
+         message = response.get("message", "")
+         screen = response.get("screen", "")
+         stacktrace = None
+         if isinstance(status, int):
+             value_json = response.get('value', None)
+             if value_json and isinstance(value_json, basestring):
+                 import json
+                 try:
+                     value = json.loads(value_json)
+                     if len(value.keys()) == 1:
+                         value = value['value']
+                     status = value.get('error', None)
+                     if status is None:
+                         status = value["status"]
+                         message = value["value"]
+                         if not isinstance(message, basestring):
+                             value = message
+                             message = message.get('message')
+                     else:
+                         message = value.get('message', None)
+                 except ValueError:
+                     pass
+     
+         exception_class = ErrorInResponseException
+         if status in ErrorCode.NO_SUCH_ELEMENT:
+             exception_class = NoSuchElementException
+         elif status in ErrorCode.NO_SUCH_FRAME:
+             exception_class = NoSuchFrameException
+         elif status in ErrorCode.NO_SUCH_WINDOW:
+             exception_class = NoSuchWindowException
+         elif status in ErrorCode.STALE_ELEMENT_REFERENCE:
+             exception_class = StaleElementReferenceException
+         elif status in ErrorCode.ELEMENT_NOT_VISIBLE:
+             exception_class = ElementNotVisibleException
+         elif status in ErrorCode.INVALID_ELEMENT_STATE:
+             exception_class = InvalidElementStateException
+         elif status in ErrorCode.INVALID_SELECTOR \
+                 or status in ErrorCode.INVALID_XPATH_SELECTOR \
+                 or status in ErrorCode.INVALID_XPATH_SELECTOR_RETURN_TYPER:
+             exception_class = InvalidSelectorException
+         elif status in ErrorCode.ELEMENT_IS_NOT_SELECTABLE:
+             exception_class = ElementNotSelectableException
+         elif status in ErrorCode.ELEMENT_NOT_INTERACTABLE:
+             exception_class = ElementNotInteractableException
+         elif status in ErrorCode.INVALID_COOKIE_DOMAIN:
+             exception_class = InvalidCookieDomainException
+         elif status in ErrorCode.UNABLE_TO_SET_COOKIE:
+             exception_class = UnableToSetCookieException
+         elif status in ErrorCode.TIMEOUT:
+             exception_class = TimeoutException
+         elif status in ErrorCode.SCRIPT_TIMEOUT:
+             exception_class = TimeoutException
+         elif status in ErrorCode.UNKNOWN_ERROR:
+             exception_class = WebDriverException
+         elif status in ErrorCode.UNEXPECTED_ALERT_OPEN:
+             exception_class = UnexpectedAlertPresentException
+         elif status in ErrorCode.NO_ALERT_OPEN:
+             exception_class = NoAlertPresentException
+         elif status in ErrorCode.IME_NOT_AVAILABLE:
+             exception_class = ImeNotAvailableException
+         elif status in ErrorCode.IME_ENGINE_ACTIVATION_FAILED:
+             exception_class = ImeActivationFailedException
+         elif status in ErrorCode.MOVE_TARGET_OUT_OF_BOUNDS:
+             exception_class = MoveTargetOutOfBoundsException
+         elif status in ErrorCode.JAVASCRIPT_ERROR:
+             exception_class = JavascriptException
+         elif status in ErrorCode.SESSION_NOT_CREATED:
+             exception_class = SessionNotCreatedException
+         elif status in ErrorCode.INVALID_ARGUMENT:
+             exception_class = InvalidArgumentException
+         elif status in ErrorCode.NO_SUCH_COOKIE:
+             exception_class = NoSuchCookieException
+         elif status in ErrorCode.UNABLE_TO_CAPTURE_SCREEN:
+             exception_class = ScreenshotException
+         elif status in ErrorCode.ELEMENT_CLICK_INTERCEPTED:
+             exception_class = ElementClickInterceptedException
+         elif status in ErrorCode.INSECURE_CERTIFICATE:
+             exception_class = InsecureCertificateException
+         elif status in ErrorCode.INVALID_COORDINATES:
+             exception_class = InvalidCoordinatesException
+         elif status in ErrorCode.INVALID_SESSION_ID:
+             exception_class = InvalidSessionIdException
+         elif status in ErrorCode.UNKNOWN_METHOD:
+             exception_class = UnknownMethodException
+         else:
+             exception_class = WebDriverException
+         if value == '' or value is None:
+             value = response['value']
+         if isinstance(value, basestring):
+             if exception_class == ErrorInResponseException:
+                 raise exception_class(response, value)
+             raise exception_class(value)
+         if message == "" and 'message' in value:
+             message = value['message']
+     
+         screen = None
+         if 'screen' in value:
+             screen = value['screen']
+     
+         stacktrace = None
+         if 'stackTrace' in value and value['stackTrace']:
+             stacktrace = []
+             try:
+                 for frame in value['stackTrace']:
+                     line = self._value_or_default(frame, 'lineNumber', '')
+                     file = self._value_or_default(frame, 'fileName', '<anonymous>')
+                     if line:
+                         file = "%s:%s" % (file, line)
+                     meth = self._value_or_default(frame, 'methodName', '<anonymous>')
+                     if 'className' in frame:
+                         meth = "%s.%s" % (frame['className'], meth)
+                     msg = "    at %s (%s)"
+                     msg = msg % (meth, file)
+                     stacktrace.append(msg)
+             except TypeError:
+                 pass
+         if exception_class == ErrorInResponseException:
+             raise exception_class(response, message)
+         elif exception_class == UnexpectedAlertPresentException:
+             alert_text = None
+             if 'data' in value:
+                 alert_text = value['data'].get('text')
+             elif 'alert' in value:
+                 alert_text = value['alert'].get('text')
+             raise exception_class(message, screen, stacktrace, alert_text)
+ >       raise exception_class(message, screen, stacktrace)
+ E       selenium.common.exceptions.SessionNotCreatedException: Message: Unable to find a matching set of capabilities
+ 
+ ../../yuchengde_py36/lib/python3.6/site-packages/selenium/webdriver/remote/errorhandler.py:242: SessionNotCreatedException
+s testcases/functional/mtc/test_lock_unlock_host.py::test_lock_active_controller_reject
+ Skipped: Not applicable to Simplex system
+F testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[controller]
+ host_type = 'controller'
+ 
+     @mark.parametrize('host_type', [
+         param('controller', marks=mark.priorities('platform_sanity',
+                                                   'sanity', 'cpe_sanity')),
+         param('compute', marks=mark.priorities('platform_sanity')),
+         param('storage', marks=mark.priorities('platform_sanity')),
+     ])
+     def test_lock_unlock_host(host_type):
+         """
+         Verify lock unlock host
+     
+         Test Steps:
+             - Select a host per given type. If type is controller, select
+                 standby controller.
+             - Lock selected host and ensure it is successfully locked
+             - Unlock selected host and ensure it is successfully unlocked
+     
+         """
+         LOG.tc_step("Select a {} node from system if any".format(host_type))
+         if host_type == 'controller':
+             if system_helper.is_aio_simplex():
+                 host = 'controller-0'
+             else:
+                 host = system_helper.get_standby_controller_name()
+                 assert host, "No standby controller available"
+     
+         else:
+             if host_type == 'compute' and system_helper.is_aio_system():
+                 skip("No compute host on AIO system")
+             elif host_type == 'storage' and not system_helper.is_storage_system():
+                 skip("System does not have storage nodes")
+     
+             hosts = system_helper.get_hosts(personality=host_type,
+                                             availability=HostAvailState.AVAILABLE,
+                                             operational=HostOperState.ENABLED)
+     
+             assert hosts, "No good {} host on system".format(host_type)
+             host = hosts[0]
+     
+         LOG.tc_step("Lock {} host - {} and ensure it is successfully "
+                     "locked".format(host_type, host))
+         HostsToRecover.add(host)
+         host_helper.lock_host(host, swact=False)
+     
+         # wait for services to stabilize before unlocking
+         time.sleep(20)
+     
+         # unlock standby controller node and verify controller node is
+         # successfully unlocked
+         LOG.tc_step("Unlock {} host - {} and ensure it is successfully "
+                     "unlocked".format(host_type, host))
+ >       host_helper.unlock_host(host)
+ 
+ testcases/functional/mtc/test_lock_unlock_host.py:93: 
+ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ keywords/host_helper.py:971: in unlock_host
+     all_namespaces=True)
+ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ 
+ pod_names = None, namespace = None, all_namespaces = True, labels = None, timeout = 300, check_interval = 10
+ con_ssh = <utils.clients.ssh.SSHClient object at 0x7f7e8cc406d8>, fail_ok = False, exclude = True, strict = False, kwargs = {'name': [], 'node': 'controller-0'}
+ bad_pods = {'coredns-6bc668cd76-vlc6w': 'Pending', 'server-pod-dep-7fc68f8c47-85drg': 'ImagePullBackOff', 'server-pod-dep-7fc68f8c47-957dw': 'ImagePullBackOff'}
+ end_time = 1591854313.5711815
+ bad_pods_info = [('server-pod-dep-7fc68f8c47-85drg', 'ImagePullBackOff'), ('server-pod-dep-7fc68f8c47-957dw', 'ImagePullBackOff'), ('coredns-6bc668cd76-vlc6w', 'Pending')]
+ msg = "Some pods are not Running or Completed: {'server-pod-dep-7fc68f8c47-85drg': 'ImagePullBackOff', 'server-pod-dep-7fc68f8c47-957dw': 'ImagePullBackOff', 'coredns-6bc668cd76-vlc6w': 'Pending'}"
+ 
+     def wait_for_pods_healthy(pod_names=None, namespace=None, all_namespaces=True,
+                               labels=None, timeout=300,
+                               check_interval=5, con_ssh=None, fail_ok=False,
+                               exclude=False, strict=False, **kwargs):
+         """
+         Wait for pods ready
+         Args:
+             pod_names (list|tuple|str|None): full name of pod(s)
+             namespace (str|None):
+             all_namespaces (bool|None)
+             labels (str|dict|list|tuple|None):
+             timeout:
+             check_interval:
+             con_ssh:
+             fail_ok:
+             exclude (bool)
+             strict (bool): strict applies to node and name matching if given
+             **kwargs
+     
+         Returns (tuple):
+     
+         """
+         LOG.info("Wait for pods ready..")
+         if not pod_names:
+             pod_names = None
+         elif isinstance(pod_names, str):
+             pod_names = [pod_names]
+     
+         bad_pods = None
+         end_time = time.time() + timeout
+         while time.time() < end_time:
+             bad_pods_info = get_unhealthy_pods(labels=labels,
+                                                field=('NAME', 'STATUS'),
+                                                namespace=namespace,
+                                                all_namespaces=all_namespaces,
+                                                con_ssh=con_ssh, exclude=exclude,
+                                                strict=strict, **kwargs)
+             bad_pods = {pod_info[0]: pod_info[1] for pod_info in bad_pods_info if
+                         (not pod_names or pod_info[0] in pod_names)}
+             if not bad_pods:
+                 LOG.info("Pods are Completed or Running.")
+                 if pod_names:
+                     pod_names = [pod for pod in pod_names if
+                                  not re.search('audit-|init-', pod)]
+                     if not pod_names:
+                         return True
+     
+                 is_ready = wait_for_running_pods_ready(
+                     pod_names=pod_names,
+                     namespace=namespace,
+                     all_namespaces=all_namespaces,
+                     labels=labels, timeout=int(end_time - time.time()),
+                     strict=strict,
+                     con_ssh=con_ssh,
+                     fail_ok=fail_ok, **kwargs)
+                 return is_ready
+             time.sleep(check_interval)
+     
+         msg = 'Some pods are not Running or Completed: {}'.format(bad_pods)
+         LOG.warning(msg)
+         if fail_ok:
+             return False
+         dump_pods_info(con_ssh=con_ssh)
+ >       raise exceptions.KubeError(msg)
+ E       utils.exceptions.KubeError: Kubernetes error.
+ E       Details: Some pods are not Running or Completed: {'server-pod-dep-7fc68f8c47-85drg': 'ImagePullBackOff', 'server-pod-dep-7fc68f8c47-957dw': 'ImagePullBackOff', 'coredns-6bc668cd76-vlc6w': 'Pending'}
+ 
+ keywords/kube_helper.py:796: KubeError
+s testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[compute]
+ Skipped: No compute host on AIO system
+s testcases/functional/mtc/test_lock_unlock_host.py::test_lock_unlock_host[storage]
+ Skipped: System does not have storage nodes
+s testcases/functional/mtc/test_swact.py::test_swact_controller_platform
+ Skipped: Simplex system detected
+s testcases/functional/z_containers/test_custom_containers.py::test_launch_pod_via_kubectl[active]
+ Skipped: Shared Test File Server is not ready
+s testcases/functional/z_containers/test_custom_containers.py::test_launch_pod_via_kubectl[standby]
+ Skipped: Shared Test File Server is not ready
+s testcases/functional/z_containers/test_custom_containers.py::test_launch_app_via_sysinv
+ Skipped: Shared Test File Server is not ready
+. testcases/functional/z_containers/test_custom_containers.py::test_push_docker_image_to_local_registry[active]
+s testcases/functional/z_containers/test_custom_containers.py::test_push_docker_image_to_local_registry[standby]
+ Skipped: Standby controller does not exist or not in good state
+s testcases/functional/z_containers/test_custom_containers.py::test_upload_charts_via_helm_upload
+ Skipped: Shared Test File Server is not ready
+E testcases/functional/z_containers/test_custom_containers.py::test_host_operations_with_custom_kubectl_app
+ request = <SubRequest 'deploy_delete_kubectl_app' for <Function 'test_host_operations_with_custom_kubectl_app'>>
+ 
+     @fixture()
+     def deploy_delete_kubectl_app(request):
+         app_name = 'resource-consumer'
+         app_params = \
+             '--image=gcr.io/kubernetes-e2e-test-images/resource-consumer:1.4' \
+             + ' --expose' \
+             + ' --service-overrides=' \
+             + "'{ " + '"spec": { "type": "LoadBalancer" } }' \
+             + "' --port 8080 --requests='cpu=1000m,memory=1024Mi'"
+     
+         LOG.fixture_step("Create {} test app by kubectl run".format(app_name))
+         sub_cmd = "run {}".format(app_name)
+         kube_helper.exec_kube_cmd(sub_cmd=sub_cmd, args=app_params, fail_ok=False)
+     
+         LOG.fixture_step("Check {} test app is created ".format(app_name))
+         pod_name = kube_helper.get_pods(field='NAME', namespace='default',
+                                         name=app_name, strict=False)[0]
+     
+         def delete_app():
+             LOG.fixture_step("Delete {} pod if exists after test "
+                              "run".format(app_name))
+             kube_helper.delete_resources(resource_names=app_name,
+                                          resource_types=('deployment', 'service'),
+                                          namespace='default', post_check=False)
+             kube_helper.wait_for_resources_gone(resource_names=pod_name,
+                                                 namespace='default')
+         request.addfinalizer(delete_app)
+     
+         kube_helper.wait_for_pods_status(pod_names=pod_name, namespace='default',
+ >                                        fail_ok=False)
+ 
+ testcases/functional/z_containers/test_custom_containers.py:346: 
+ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+ 
+ pod_names = ['resource-consumer-5577dbdbf-4rqbc'], partial_names = None, labels = None, namespace = 'default', status = 'Running', timeout = 120, check_interval = 3
+ con_ssh = None, fail_ok = False, strict = False, kwargs = {}, pods_to_check = ['resource-consumer-5577dbdbf-4rqbc']
+ actual_status = {'resource-consumer-5577dbdbf-4rqbc': 'ErrImagePull'}, end_time = 1591854587.9508226, pod_full_names = ['resource-consumer-5577dbdbf-4rqbc']
+ pods_values = [('resource-consumer-5577dbdbf-4rqbc', 'ErrImagePull')], continue_check = True, pod_info = ('resource-consumer-5577dbdbf-4rqbc', 'ErrImagePull')
+ 
+     def wait_for_pods_status(pod_names=None, partial_names=None, labels=None,
+                              namespace=None, status=PodStatus.RUNNING,
+                              timeout=120, check_interval=3, con_ssh=None,
+                              fail_ok=False, strict=False, **kwargs):
+         """
+         Wait for pod(s) to reach given status via kubectl get pod
+         Args:
+             pod_names (str|list|tuple): full name of the pods
+             partial_names (str|list|tuple): Used only if pod_names are not provided
+             labels (str|list|tuple|dict|None): Used only if pod_names are not
+                 provided
+             namespace (None|str):
+             status (str|None|list): None means any state as long as pod exists.
+             timeout:
+             check_interval:
+             con_ssh:
+             fail_ok:
+             strict (bool):
+     
+         Returns (tuple):
+             (True, <actual_pods_info>)  # actual_pods_info is a dict with
+             pod_name as key, and pod_info(dict) as value
+             (False, <actual_pods_info>)
+     
+         """
+     
+         pods_to_check = []
+         if pod_names:
+             if isinstance(pod_names, str):
+                 pod_names = [pod_names]
+             else:
+                 pod_names = list(pod_names)
+             labels = partial_names = None
+             pods_to_check = list(pod_names)
+         elif partial_names:
+             if isinstance(partial_names, str):
+                 partial_names = [partial_names]
+             else:
+                 partial_names = list(partial_names)
+             kwargs['NAME'] = partial_names
+             pods_to_check = list(partial_names)
+     
+         actual_status = {}
+         end_time = time.time() + timeout
+     
+         while time.time() < end_time:
+             pod_full_names = pods_to_check if pod_names else None
+             pods_values = get_pods(pod_names=pod_full_names,
+                                    field=('NAME', 'status'), namespace=namespace,
+                                    labels=labels,
+                                    strict=strict, fail_ok=True, con_ssh=con_ssh,
+                                    **kwargs)
+             if not pods_values:
+                 # No pods returned, continue to check.
+                 time.sleep(check_interval)
+                 continue
+     
+             continue_check = False  # This is used when only labels are provided
+             for pod_info in pods_values:
+                 pod_name, pod_status = pod_info
+                 actual_status[pod_name] = pod_status
+                 if status and pod_status not in status:
+                     # Status not as expected, continue to wait
+                     continue_check = True
+                     if partial_names:
+                         # In this case, there might be multiple pods that matches
+                         # 1 partial name, so the partial name that
+                         # matches current pod could have been removed if there
+                         # was one other pod that also matched the name
+                         # had reached the desired state. In this case, we will
+                         # add the partial name back to check list
+                         for partial_name in partial_names:
+                             if partial_name in pod_name and partial_name not in \
+                                     pods_to_check:
+                                 pods_to_check.append(partial_name)
+                                 break
+                 else:
+                     # Criteria met for current pod, remove it from check_list
+                     if pod_names:
+                         pods_to_check.remove(pod_name)
+                     elif partial_names:
+                         for partial_name in partial_names:
+                             if partial_name in pod_name and partial_name in \
+                                     pods_to_check:
+                                 pods_to_check.remove(partial_name)
+                                 break
+     
+             if not pods_to_check and not continue_check:
+                 return True, actual_status
+     
+             time.sleep(check_interval)
+     
+         name_str = 'Names: {}'.format(pods_to_check) if pods_to_check else ''
+         label_str = 'Labels: {}'.format(labels) if labels else ''
+         criteria = '{} {}'.format(name_str, label_str).strip()
+         msg = "Pods did not reach expected status within {}s. Criteria not met: " \
+               "{}. Actual info: {}".format(timeout, criteria, actual_status)
+         if fail_ok:
+             LOG.info(msg)
+             return False, actual_status
+     
+ >       raise exceptions.KubeError(msg)
+ E       utils.exceptions.KubeError: Kubernetes error.
+ E       Details: Pods did not reach expected status within 120s. Criteria not met: Names: ['resource-consumer-5577dbdbf-4rqbc']. Actual info: {'resource-consumer-5577dbdbf-4rqbc': 'ErrImagePull'}
+ 
+ keywords/kube_helper.py:414: KubeError
+. testcases/functional/z_containers/test_kube_system_services.py::test_kube_system_services[active]
+s testcases/functional/z_containers/test_kube_system_services.py::test_kube_system_services[standby]
+ Skipped: Standby controller does not exist or not in good state
